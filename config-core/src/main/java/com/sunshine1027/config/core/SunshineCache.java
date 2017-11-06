@@ -1,4 +1,4 @@
-package com.sunshine1027.core;
+package com.sunshine1027.config.core;
 
 import java.util.concurrent.ConcurrentHashMap;
 

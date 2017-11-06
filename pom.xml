@@ -11,6 +11,7 @@
     <modules>
         <module>config-core</module>
         <module>config-demo</module>
+        <module>config-admin</module>
     </modules>
 
     <dependencies>

@@ -1,4 +1,4 @@
-package com.sunshine1027.core;
+package com.sunshine1027.config.core;
 
 /**
  * @author sunshine1027 [sunshine10271993@gmail.com]
