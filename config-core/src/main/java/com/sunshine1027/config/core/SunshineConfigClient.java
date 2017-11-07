@@ -1,5 +1,8 @@
 package com.sunshine1027.config.core;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -9,9 +12,12 @@ import java.util.concurrent.Executors;
  */
 public class SunshineConfigClient {
     private static Executor executor;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     static {
         executor = Executors.newFixedThreadPool(3);
+        //初始化zk
+        SunshineZookeeperClient.initZookeeper();
     }
 
     public String getValue(String key) {
@@ -24,21 +30,9 @@ public class SunshineConfigClient {
                 try {
                     SunshineZookeeperClient.setValueToZookeeper(key, value);
                 } catch (Exception e) {
-
                 }
             }
         });
-    }
-
-    public static void main(String[] args) {
-        SunshineConfigClient configClient = new SunshineConfigClient();
-        configClient.setValue("testKey1", "testValue");
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println(configClient.getValue("testKey1"));
     }
 
 }

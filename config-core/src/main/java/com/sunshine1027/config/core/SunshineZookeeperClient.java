@@ -1,10 +1,14 @@
 package com.sunshine1027.config.core;
 
-import org.apache.commons.lang.StringUtils;
+
 import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
+
+import static com.sunshine1027.config.core.BaseConstants.NODE_PATH_KEY;
+import static com.sunshine1027.config.core.BaseConstants.ZK_SERVERS_KEY;
 
 
 /**
@@ -14,10 +18,18 @@ public class SunshineZookeeperClient {
 
     private static ZooKeeper zooKeeper;
 
+    private static String zkServers = PropertiesUtil.getProperties(ZK_SERVERS_KEY);
+    private static String nodePath = PropertiesUtil.getProperties(NODE_PATH_KEY);
+
+    public static void initZookeeper() {
+        getZooKeeperInstance();
+    }
+
     private static ZooKeeper getZooKeeperInstance() {
+        System.out.println();
         if (zooKeeper == null) {
             try {
-                zooKeeper = new ZooKeeper(BaseConfig.zkServers, 20000, new Watcher() {
+                zooKeeper = new ZooKeeper(zkServers, 20000, new Watcher() {
                     public void process(WatchedEvent watchedEvent) {
                         try {
                             // session expire, close old and create new
@@ -56,13 +68,13 @@ public class SunshineZookeeperClient {
 
 
     private static String pathToKey(String path) {
-        if (path == null || path.length() < BaseConfig.basePath.length())
+        if (path == null || path.length() < nodePath.length())
             return null;
-        return path.substring(BaseConfig.basePath.length() + 1, path.length());
+        return path.substring(nodePath.length() + 1, path.length());
     }
 
     private static String keyToPath(String key) {
-        return BaseConfig.basePath + "/" + key;
+        return nodePath + "/" + key;
     }
 
     /**
@@ -138,10 +150,10 @@ public class SunshineZookeeperClient {
         return null;
     }
 
-    private static void freshAllDataToCache() {
+    public static void freshAllDataToCache() {
         List<String> childKeys = null;
         try {
-            childKeys = getZooKeeperInstance().getChildren(BaseConfig.basePath, true);
+            childKeys = getZooKeeperInstance().getChildren(nodePath, true);
         } catch (KeeperException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
