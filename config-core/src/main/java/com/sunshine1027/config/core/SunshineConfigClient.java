@@ -3,6 +3,7 @@ package com.sunshine1027.config.core;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -22,6 +23,10 @@ public class SunshineConfigClient {
 
     public String getValue(String key) {
         return SunshineCache.getCache(key);
+    }
+
+    public ConcurrentHashMap<String, String> getAllKeyValues() {
+        return SunshineCache.getAllKeyValue();
     }
 
     public void setValue(final String key, final String value) {

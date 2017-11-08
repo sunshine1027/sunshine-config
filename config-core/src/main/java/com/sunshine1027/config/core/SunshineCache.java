@@ -8,6 +8,10 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SunshineCache {
     private static ConcurrentHashMap<String, String> cacheKV = new ConcurrentHashMap<String, String>();
 
+    public static ConcurrentHashMap<String, String> getAllKeyValue() {
+        return cacheKV;
+    }
+
     /**
      * 获取value，客户端调用
      * @param key
